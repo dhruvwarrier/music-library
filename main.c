@@ -215,21 +215,21 @@ Node* rawInsertSong(char name[], char artist[], char genre[], Node *previousNode
 	//check if previousNode is NULL
 	Node *thisNode = (Node*)malloc(sizeof(Node));
 	if (previousNode == NULL) {
-		thisNode->songName = (char*)malloc(strlen(name));
+		thisNode->songName = (char*)malloc(strlen(name)*sizeof(char));
 		strcpy(thisNode->songName, name);
-		thisNode->artist = (char*)malloc(strlen(artist)); // allocates memory for the node and copies parameters
+		thisNode->artist = (char*)malloc(strlen(artist)*sizeof(char)); // allocates memory for the node and copies parameters
 		strcpy(thisNode->artist, artist);
-		thisNode->genre = (char*)malloc(strlen(genre));
+		thisNode->genre = (char*)malloc(strlen(genre)*sizeof(char));
 		strcpy(thisNode->genre, genre);
 		thisNode->nextNode = NULL; // if head node, previousNode cannot be re-routed and nextNode is NULL
 	} else {
 		// not a head node
 		Node *nextNode = previousNode->nextNode;
-		thisNode->songName = (char*)malloc(strlen(name));
+		thisNode->songName = (char*)malloc(strlen(name)*sizeof(char));
 		strcpy(thisNode->songName, name);
-		thisNode->artist = (char*)malloc(strlen(artist)); // allocates memory for the node and copies parameters
+		thisNode->artist = (char*)malloc(strlen(artist)*sizeof(char)); // allocates memory for the node and copies parameters
 		strcpy(thisNode->artist, artist);
-		thisNode->genre = (char*)malloc(strlen(genre));
+		thisNode->genre = (char*)malloc(strlen(genre)*sizeof(char));
 		strcpy(thisNode->genre, genre);
 		thisNode->nextNode = nextNode; // make this node point to next node
 		previousNode->nextNode = thisNode; // make previous node point to this node
