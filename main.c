@@ -39,13 +39,13 @@ void printNodeContents(Node*);
 
 // Declarations of support functions
 
-void inputStringFromUser( char prompt[], char s[], int arraySize ) ;
-void songNameDuplicate( char songName[] ) ;
-void songNameFound( char songName[] ) ;
-void songNameNotFound( char songName[] ) ;
-void songNameDeleted( char songName[] ) ;
-void printMusicLibraryEmpty( void ) ;
-void printMusicLibraryTitle( void ) ;
+void inputStringFromUser(char prompt[], char s[], int arraySize);
+void songNameDuplicate(char songName[]);
+void songNameFound(char songName[]);
+void songNameNotFound(char songName[]);
+void songNameDeleted(char songName[]);
+void printMusicLibraryEmpty(void);
+void printMusicLibraryTitle(void);
 
 const int MAX_LENGTH = 1024;
 
@@ -57,22 +57,22 @@ int main( void ) {
 	char *promptGenre = "Genre";
 	
     // Announce the start of the program
-    printf( "Personal Music Library.\n\n" ) ;
-    printf( "%s", "Commands are I (insert), D (delete), S (search by song name),\n"
-         "P (print), Q (quit).\n" ) ;
+    printf("Personal Music Library.\n\n");
+    printf("%s", "Commands are I (insert), D (delete), S (search by song name),\n"
+         "P (print), Q (quit).\n");
     
-    char response ;
+    char response;
     char input[MAX_LENGTH + 1];
 	char name[MAX_LENGTH + 1], artist[MAX_LENGTH + 1], genre[MAX_LENGTH + 1];
 	
     do {
-		inputStringFromUser( "\nCommand", input, MAX_LENGTH ) ;
+		inputStringFromUser("\nCommand", input, MAX_LENGTH);
 
         // Response is the first character entered by user.
         // Convert to uppercase to simplify later comparisons.
-        response = toupper( input[0] ) ;
+        response = toupper(input[0]);
 
-        if( response == 'I' ) {
+        if(response == 'I') {
             // Insert a song into the linked list.
             // Maintain the list in alphabetical order by song name.
 			inputStringFromUser(promptName, name, MAX_LENGTH);
@@ -80,29 +80,29 @@ int main( void ) {
 			inputStringFromUser(promptGenre, genre, MAX_LENGTH);
 			insertSong(name, artist, genre, &headOfList);
         }
-        else if( response == 'D' ) {
+        else if(response == 'D') {
             // Delete a song from the list.
-            char *prompt = "\nEnter the name of the song to be deleted" ;
+            char *prompt = "\nEnter the name of the song to be deleted";
 			inputStringFromUser(prompt, input, MAX_LENGTH); // receives and deletes song given by song name if found
 			deleteSong(&headOfList, input);
         }
-        else if( response == 'S' ) {
+        else if(response == 'S') {
             // Search for a song by its name.
-            char *prompt = "\nEnter the name of the song to search for" ;
+            char *prompt = "\nEnter the name of the song to search for";
 			inputStringFromUser(prompt, input, MAX_LENGTH); // searches for song specified and returns song if found
 			searchSong(headOfList, input);
         }
-        else if( response == 'P' ) {
+        else if(response == 'P') {
 			printList(headOfList);
         }
-        else if( response == 'Q' ) {
+        else if(response == 'Q') {
             ; // do nothing, we'll catch this below
         }
         else {
             // do this if no command matched ...
-            printf( "\nInvalid command.\n" ) ;
+            printf("\nInvalid command.\n");
         }
-    } while( response != 'Q' ) ;
+    } while(response != 'Q') ;
     // Delete the entire linked list.
     if (headOfList!= NULL) { // not an empty list
 		Node* previousNode = headOfList;
@@ -119,7 +119,7 @@ int main( void ) {
     // Print the linked list to confirm deletion.
     printList(headOfList);
 
-    return 0 ;
+    return 0;
 }
 
 // Support Function Definitions
@@ -129,45 +129,44 @@ void inputStringFromUser(char prompt[], char s[], int maxStrLength) {
     int i = 0;
     char c;
     
-    printf( "%s --> ", prompt ) ;
-    while( i < maxStrLength && (c = getchar()) != '\n' )
-        s[i++] = c ;
-    s[i] = '\0' ;
+    printf("%s --> ", prompt);
+    while(i < maxStrLength && (c = getchar()) != '\n') {
+		s[i++] = c;
+	}
+    s[i] = '\0';
 }
 
 // Function to call when the user is trying to insert a song name 
 // that is already in the personal music library.
-void songNameDuplicate( char songName[] ) {
+void songNameDuplicate(char songName[]) {
     printf( "\nA song with the name '%s' is already in the music library.\n"
-            "No new song entered.\n", songName);
+	"No new song entered.\n", songName);
 }
 
 // Function to call when a song name was found in the personal music library.
-void songNameFound( char songName[] ) {
-    printf( "\nThe song name '%s' was found in the music library.\n",
-           songName ) ;
+void songNameFound(char songName[]) {
+    printf("\nThe song name '%s' was found in the music library.\n", songName);
 }
 
 // Function to call when a song name was not found in the personal music library.
-void songNameNotFound( char songName[] ) {
-    printf( "\nThe song name '%s' was not found in the music library.\n",
-           songName);
+void songNameNotFound(char songName[]) {
+    printf("\nThe song name '%s' was not found in the music library.\n", songName);
 }
 
 // Function to call when a song name that is to be deleted
 // was found in the personal music library.
-void songNameDeleted (char songName[]) {
-    printf( "\nDeleting a song with name '%s' from the music library.\n", songName);
+void songNameDeleted(char songName[]) {
+    printf("\nDeleting a song with name '%s' from the music library.\n", songName);
 }
 
 // Function to call when printing an empty music library.
 void printMusicLibraryEmpty(void) {
-    printf( "\nThe music library is empty.\n" ) ;
+    printf("\nThe music library is empty.\n");
 }
 
 // Function to call to print a title when the entire music library is printed.
 void printMusicLibraryTitle(void) {
-    printf( "\nMy Personal Music Library: \n" ) ;
+    printf("\nMy Personal Music Library: \n");
 }
 
 // Linked list functions
@@ -214,7 +213,6 @@ void insertSong(char name[], char artist[], char genre[], Node **headRef) {
 Node* rawInsertSong(char name[], char artist[], char genre[], Node *previousNode) {
 	//check if previousNode is NULL
 	Node *thisNode = (Node*)malloc(sizeof(Node));
-	
 	thisNode->songName = (char*)malloc(strlen(name)*sizeof(char));
 	strcpy(thisNode->songName, name);
 	thisNode->artist = (char*)malloc(strlen(artist)*sizeof(char)); // allocates memory for the node and copies parameters
