@@ -32,6 +32,7 @@ void deleteSong(Node**, char[]);
 Node* rawInsertSong(char[], char[], char[], Node*); // inserts song/node after previous song/node and returns address of created node
 Node* rawSearchSong(Node*, char[], Node**); // returns reference to song if found, else returns null
 bool rawDeleteSong(Node**, char[]); // searches and deletes a node, returns true if successful
+void deleteAll(Node**);
 void freeNode(Node*); // frees the memory for a node
 void printList(Node*);
 bool songExists(Node*, char[]); // returns true if song found
@@ -102,20 +103,9 @@ int main( void ) {
             // do this if no command matched ...
             printf("\nInvalid command.\n");
         }
-    } while(response != 'Q') ;
+    } while(response != 'Q');
     // Delete the entire linked list.
-    if (headOfList!= NULL) { // not an empty list
-		Node* previousNode = headOfList;
-		Node* nextNode = previousNode->nextNode;
-		while (nextNode != NULL) { // iterate till end of linked list
-			nextNode = previousNode->nextNode;
-			if (nextNode == NULL) break; // prevents previous node from becoming new node
-			deleteSong(&headOfList, previousNode->songName); // deletes song
-			previousNode = nextNode;
-		}
-		deleteSong(&headOfList, previousNode->songName); // deletes head if the list only has one song
-		headOfList = NULL;
-	}
+    deleteAll(&headOfList);
     // Print the linked list to confirm deletion.
     printList(headOfList);
 
@@ -323,6 +313,23 @@ bool rawDeleteSong(Node** headRef, char songToBeDeleted[]) {
 	}
 	free(previousNodeRef); // frees previousNodeRef whose size was not defined initially
 	return found;
+}
+
+void deleteAll(Node** headRef) {
+	Node* headOfList = *headRef;
+	if (headOfList != NULL) { // not an empty list
+		Node* previousNode = headOfList;
+		Node* nextNode = previousNode->nextNode;
+		while (nextNode != NULL) { // iterate till end of linked list
+			nextNode = previousNode->nextNode;
+			if (nextNode == NULL) break; // prevents previous node from becoming new node
+			deleteSong(&headOfList, previousNode->songName); // deletes song
+			previousNode = nextNode;
+		}
+		deleteSong(&headOfList, previousNode->songName); // deletes head if the list only has one song
+		headOfList = NULL;
+	}
+	*headRef = headOfList; // update the original head
 }
 
 void freeNode(Node* nodeToBeFreed) {
