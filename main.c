@@ -21,12 +21,13 @@ typedef struct node {
     char *artist;
     char *songName;
     char *genre;
+	char *album;
     struct node *nextNode;
 } Node;
 
 // Declarations of linked list functions
 //
-void insertSong(char[], char[], char[], Node**);
+void insertSong(char[], char[], char[], char[], Node**);
 void searchSong(Node*, char[]);
 void deleteSong(Node**, char[]);
 Node* rawInsertSong(char[], char[], char[], Node*); // inserts song/node after previous song/node and returns address of created node
@@ -56,6 +57,7 @@ int main(void) {
 	char *promptName = "Song name";
 	char *promptArtist = "Artist";
 	char *promptGenre = "Genre";
+	char *promptAlbum = "Album";
 	
     // Announce the start of the program
     printf("Personal Music Library.\n\n");
@@ -64,7 +66,7 @@ int main(void) {
     
     char response;
     char input[MAX_LENGTH + 1];
-	char name[MAX_LENGTH + 1], artist[MAX_LENGTH + 1], genre[MAX_LENGTH + 1];
+	char name[MAX_LENGTH + 1], artist[MAX_LENGTH + 1], genre[MAX_LENGTH + 1], album[MAX_LENGTH + 1];
 	
     do {
 		inputStringFromUser("\nCommand", input, MAX_LENGTH);
@@ -79,7 +81,8 @@ int main(void) {
 			inputStringFromUser(promptName, name, MAX_LENGTH);
 			inputStringFromUser(promptArtist, artist, MAX_LENGTH); // receives and inserts song in alphabetical order
 			inputStringFromUser(promptGenre, genre, MAX_LENGTH);
-			insertSong(name, artist, genre, &headOfList);
+			inputStringFromUser(promptAlbum, album, MAX_LENGTH);
+			insertSong(name, artist, genre, album, &headOfList);
         }
         else if(response == 'D') {
             // Delete a song from the list.
@@ -161,7 +164,7 @@ void printMusicLibraryTitle(void) {
 
 // Linked list functions
 
-void insertSong(char name[], char artist[], char genre[], Node **headRef) {
+void insertSong(char name[], char artist[], char genre[], char album[], Node **headRef) {
 	// check for alphabetic order
 	Node *head = *headRef;
 	if (head == NULL) {
