@@ -30,7 +30,7 @@ typedef struct node {
 void insertSong(char[], char[], char[], char[], Node**);
 void searchSong(Node*, char[]);
 void deleteSong(Node**, char[]);
-Node* rawInsertSong(char[], char[], char[], Node*); // inserts song/node after previous song/node and returns address of created node
+Node* rawInsertSong(char[], char[], char[], char[], Node*); // inserts song/node after previous song/node and returns address of created node
 Node* rawSearchSong(Node*, char[], Node**); // returns reference to song if found, else returns null
 bool rawDeleteSong(Node**, char[]); // searches and deletes a node, returns true if successful
 void deleteAll(Node**);
@@ -168,14 +168,14 @@ void insertSong(char name[], char artist[], char genre[], char album[], Node **h
 	// check for alphabetic order
 	Node *head = *headRef;
 	if (head == NULL) {
-		head = rawInsertSong(name, artist, genre, NULL); // if no head exists, create a head node and point to it
+		head = rawInsertSong(name, artist, genre, album, NULL); // if no head exists, create a head node and point to it
 	} else {
 		Node *thisNode;
 		Node *previousNode = head;
 		
 		if (strcmp(name, head->songName) < 0) {
 			// if the new song comes alphabetically before the head, change the address of head to new song
-			thisNode = rawInsertSong(name, artist, genre, NULL); 
+			thisNode = rawInsertSong(name, artist, genre, album, NULL); 
 			thisNode->nextNode = head;
 			head = thisNode;
 		} else if (strcmp(name, head->songName) == 0) {
@@ -191,9 +191,9 @@ void insertSong(char name[], char artist[], char genre[], char album[], Node **h
 				previousNode = nextNode; 
 			}
 			if (nextNode != NULL && strcmp(nextNode->songName, name) != 0) {
-				rawInsertSong(name, artist, genre, previousNode); // if not duplicate and not head node, insert song
+				rawInsertSong(name, artist, genre, album, previousNode); // if not duplicate and not head node, insert song
 			} else if (nextNode == NULL) {
-				rawInsertSong(name, artist, genre, previousNode); // insert song if reached end of list
+				rawInsertSong(name, artist, genre, album, previousNode); // insert song if reached end of list
 			} else {
 				// nextNode is not NULL and is the same as this node
 				songNameDuplicate(name);
@@ -203,7 +203,7 @@ void insertSong(char name[], char artist[], char genre[], char album[], Node **h
 	*headRef = head; // update original head in main
 }
 
-Node* rawInsertSong(char name[], char artist[], char genre[], Node *previousNode) {
+Node* rawInsertSong(char name[], char artist[], char genre[], char album[], Node *previousNode) {
 	//check if previousNode is NULL
 	Node *thisNode = (Node*)malloc(sizeof(Node));
 	thisNode->songName = (char*)malloc(strlen(name)*sizeof(char));
@@ -212,6 +212,8 @@ Node* rawInsertSong(char name[], char artist[], char genre[], Node *previousNode
 	strcpy(thisNode->artist, artist);
 	thisNode->genre = (char*)malloc(strlen(genre)*sizeof(char));
 	strcpy(thisNode->genre, genre);
+	thisNode->album = (char*)malloc(strlen(album)*sizeof(char));
+	strcpy(thisNode->album, album);
 	
 	if (previousNode == NULL) {
 		thisNode->nextNode = NULL; // if head node, previousNode cannot be re-routed and nextNode is NULL
@@ -339,6 +341,7 @@ void freeNode(Node* nodeToBeFreed) {
 	free(nodeToBeFreed->songName);
 	free(nodeToBeFreed->artist); // frees all the memory for a node
 	free(nodeToBeFreed->genre);
+	free(nodeToBeFreed->album);
 	free(nodeToBeFreed);
 }
 
@@ -387,4 +390,5 @@ void printNodeContents(Node* nodeToBePrinted) {
 	printf("\n%s\n", nodeToBePrinted->songName);
 	printf("%s\n", nodeToBePrinted->artist); // prints the paramaters of a certain song in the list
 	printf("%s\n", nodeToBePrinted->genre);
+	printf("%s\n", nodeToBePrinted->album);
 }
