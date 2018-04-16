@@ -18,10 +18,10 @@
 // and deallocated using the free() function after use.
 
 typedef struct node {
-    char *artist ;
-    char *songName ;
-    char *genre ;
-    struct node *nextNode ;
+    char *artist;
+    char *songName;
+    char *genre;
+    struct node *nextNode;
 } Node;
 
 // Declarations of linked list functions
@@ -50,7 +50,7 @@ void printMusicLibraryTitle(void);
 
 const int MAX_LENGTH = 1024;
 
-int main( void ) {
+int main(void) {
     // Declare the head of the linked list.
 	Node *headOfList = NULL;
 	char *promptName = "Song name";
@@ -129,7 +129,7 @@ void inputStringFromUser(char prompt[], char s[], int maxStrLength) {
 // Function to call when the user is trying to insert a song name 
 // that is already in the personal music library.
 void songNameDuplicate(char songName[]) {
-    printf( "\nA song with the name '%s' is already in the music library.\n"
+    printf("\nA song with the name '%s' is already in the music library.\n"
 	"No new song entered.\n", songName);
 }
 
