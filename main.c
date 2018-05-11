@@ -84,14 +84,22 @@ int main(void) {
         else if(response == 'D') {
             // Delete a song from the list.
             char *prompt = "\nEnter the name of the song to be deleted";
-			inputStringFromUser(prompt, input, MAX_LENGTH); // receives and deletes song given by song name if found
-			deleteSong(&headOfList, input);
+			if (headOfList == NULL) {
+				printMusicLibraryEmpty();
+			} else {
+				inputStringFromUser(prompt, input, MAX_LENGTH); // receives and deletes song given by song name if found
+				deleteSong(&headOfList, input);
+			}
         }
         else if(response == 'S') {
             // Search for a song by its name.
             char *prompt = "\nEnter the name of the song to search for";
-			inputStringFromUser(prompt, input, MAX_LENGTH); // searches for song specified and returns song if found
-			searchSong(headOfList, input);
+			if (headOfList == NULL) {
+				printMusicLibraryEmpty();
+			} else {
+				inputStringFromUser(prompt, input, MAX_LENGTH); // searches for song specified and returns song if found
+				searchSong(headOfList, input);
+			}
         }
         else if(response == 'P') {
 			printList(headOfList);
